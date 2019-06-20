@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 import routes from './routes'
 
 Vue.use(VueRouter)
@@ -20,6 +19,27 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  Router.beforeEach((to, from, next) => {
+    let logado = function () {
+      if (sessionStorage.getItem('logged')) {
+        return true
+      }
+      return false
+    }
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (!logado()) {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    } else {
+      next() // make sure to always call next()!
+    }
   })
 
   return Router

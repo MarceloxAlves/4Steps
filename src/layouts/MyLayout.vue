@@ -25,6 +25,12 @@
       bordered
       content-class="bg-grey-2"
     >
+      <div class="row">
+        <q-icon name="person" class="text-blue-12" style="font-size: 6rem;" />
+        <p class="col-md-6 col-sm-12">{{user.nome}}</p>
+        <p class="col-md-6 col-sm-12">{{user.email}}</p>
+      </div>
+
       <q-list>
         <q-item-label header>Opções</q-item-label>
         <q-item clickable tag="a" >
@@ -45,6 +51,15 @@
             <q-item-label caption>Central de ajuda</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable tag="a" @click="logout"  >
+          <q-item-section avatar>
+            <q-icon name="logout" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Sair</q-item-label>
+            <q-item-label caption>Clique aqui para fechar a sessão</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -61,12 +76,26 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
       // leftDrawerOpen: this.$q.platform.is.desktop
+      user: {
+        email: 'teste@teste.com',
+        nome: 'Teste'
+      }
+    }
+  },
+  created () {
+    if (this.$auth.currentUser != null) {
+      this.user.email = this.$auth.currentUser.email
+      this.user.nome = this.$auth.currentUser.displayName
     }
   },
   methods: {
-    openURL
+    openURL,
+    logout () {
+      this.$auth.signOut().then(function () {
+      })
+    }
   }
 }
 </script>

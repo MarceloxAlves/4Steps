@@ -1,10 +1,10 @@
 <template>
-  <div>My component</div>
+  <h2 style="font-weight: 900; text-align: center; color: white">4Steps</h2>
 </template>
 
 <script>
 export default {
-  // name: 'ComponentName',
+  name: 'Logo',
   data () {
     return {}
   }
