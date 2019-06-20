@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <h1>Bem vindo ao 4Steps</h1>
+    <Login></Login>
   </q-page>
 </template>
 
@@ -8,7 +8,9 @@
 </style>
 
 <script>
+import Login from '../components/login'
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  components: { Login }
 }
 </script>
