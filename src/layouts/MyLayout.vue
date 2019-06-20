@@ -25,10 +25,15 @@
       bordered
       content-class="bg-grey-2"
     >
-      <div class="row">
-        <q-icon name="person" class="text-blue-12" style="font-size: 6rem;" />
-        <p class="col-md-6 col-sm-12">{{user.nome}}</p>
-        <p class="col-md-6 col-sm-12">{{user.email}}</p>
+      <div class="row text-center">
+        <div class="col-md-12">
+          <q-icon name="person" class="text-blue-12" style="font-size: 6rem;" />
+        </div>
+      </div>
+        <div class="flex flex-block flex-center">
+        <p>{{user.nome}}</p>
+          <p>{{user.email}}</p>
+          <conta-edit :contaEditOpen="contaEditOpen"></conta-edit>
       </div>
 
       <q-list>
@@ -71,12 +76,15 @@
 
 <script>
 import { openURL } from 'quasar'
+import ContaEdit from '../components/user/conta-edit'
 
 export default {
   name: 'MyLayout',
+  components: { ContaEdit },
   data () {
     return {
       leftDrawerOpen: false,
+      contaEditOpen: false,
       // leftDrawerOpen: this.$q.platform.is.desktop
       user: {
         email: 'teste@teste.com',
@@ -93,7 +101,9 @@ export default {
   methods: {
     openURL,
     logout () {
+      var app = this
       this.$auth.signOut().then(function () {
+        app.$router.replace('/login')
       })
     }
   }

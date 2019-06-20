@@ -55,11 +55,15 @@ export default {
   },
   methods: {
     login () {
-      this.$auth.signInWithEmailAndPassword(this.email, this.password).then((user) => {
-        sessionStorage.setItem('logged', user)
-        this.$router.replace('/home')
+      var app = this
+      this.$auth.setPersistence('session').then(function () {
+        app.$auth.signInWithEmailAndPassword(app.email, app.password).then((user) => {
+          app.$router.replace('/home')
+        }).catch((err) => {
+          app.$q.notify(err.message)
+        })
       }).catch((err) => {
-        alert(err.message)
+        app.$q.notify(err.message)
       })
     }
   }

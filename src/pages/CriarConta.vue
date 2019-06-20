@@ -1,5 +1,5 @@
 <template>
-  <q-page  class="flex flex-center">
+  <q-page  class="row flex flex-center">
     <div class="q-pa-md col-sm-12 col-md-6">
       <Logo></Logo>
       <q-form
@@ -85,7 +85,16 @@ export default {
         )
         this.$router.replace('/login')
       }).catch((err) => {
-        alert(err.message)
+        if (err.code.toString() === 'auth/email-already-in-use') {
+          this.$q.notify({
+            color: 'negative',
+            position: 'bottom-right',
+            message: 'Este email já está cadastrado',
+            timeout: 2500,
+            textColor: 'white',
+            actions: [{ icon: 'close', color: 'white' }]
+          })
+        }
       })
     }
   }

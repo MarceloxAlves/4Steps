@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import { AUTH } from '../boot/firebase'
 
 Vue.use(VueRouter)
 
@@ -22,21 +23,17 @@ export default function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    let logado = function () {
-      if (sessionStorage.getItem('logged')) {
-        return true
-      }
-      return false
-    }
     if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (!logado()) {
-        next({
-          path: '/login',
-          query: { redirect: to.fullPath }
-        })
-      } else {
-        next()
-      }
+      AUTH.onAuthStateChanged(function (user) {
+        if (user) {
+          next()
+        } else {
+          next({
+            path: '/login',
+            query: { redirect: to.fullPath }
+          })
+        }
+      })
     } else {
       next() // make sure to always call next()!
     }
