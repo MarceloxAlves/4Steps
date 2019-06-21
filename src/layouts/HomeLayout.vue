@@ -25,6 +25,6 @@ export default {
 
 <style>
   .layout{
-    background:#0747A6;
+    background: url("../assets/bg.jpg") #0747A6;
   }
 </style>

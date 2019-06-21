@@ -73,7 +73,7 @@ export default {
 <style>
   .q-gutter-md{
     background-color: white;
-    padding: 10%;
+    padding: 5%;
   }
   .link-nova{
     cursor: pointer;

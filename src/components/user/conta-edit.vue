@@ -8,9 +8,9 @@
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
-        <q-card-section class="mmodal">
+        <q-card-section>
           <q-form
-            @submit="login"
+            @submit="salvar"
             class="q-gutter-md"
           >
             <q-input
@@ -23,7 +23,7 @@
               :rules="[ val => val && val.length > 0 || 'Digite seu Nome']"
             />
             <div class="col-sm-12">
-              <q-btn style="width: 100%" label="Logar" type="submit" color="primary"/>
+              <q-btn style="width: 100%" label="Salvar alterações" type="submit" color="primary"/>
             </div>
           </q-form>
         </q-card-section>
@@ -53,6 +53,33 @@ export default {
     }
   },
   methods: {
+    salvar () {
+      let user = this.$auth.currentUser
+      var app = this
+      if (user) {
+        user.updateProfile({
+          displayName: app.user.nome
+        }).then(function () {
+          app.$q.notify({
+            color: 'positive',
+            position: 'bottom-right',
+            message: 'Alterações salva com sucesso',
+            timeout: 2500,
+            textColor: 'white',
+            actions: [{ icon: 'close', color: 'white' }]
+          })
+        }).catch((err) => {
+          this.$q.notify({
+            color: 'negative',
+            position: 'bottom-right',
+            message: err.message,
+            timeout: 2500,
+            textColor: 'white',
+            actions: [{ icon: 'close', color: 'white' }]
+          })
+        })
+      }
+    }
   }
 }
 </script>
@@ -66,14 +93,5 @@ export default {
   .link-nova{
     cursor: pointer;
     color: #0747A6;
-  }
-
-  .mmodal{
-    width: 100%;
-  }
-  @media screen and (min-width: 600px) {
-    .mmodal{
-      width: 100%;
-    }
   }
 </style>

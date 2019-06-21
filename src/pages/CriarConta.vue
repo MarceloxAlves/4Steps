@@ -67,23 +67,32 @@ export default {
   },
   methods: {
     login () {
+      var app = this
       this.$auth.createUserWithEmailAndPassword(this.email, this.password).then((user) => {
-        if (user) {
-          user.updateProfile({
-            displayName: this.nome
-          }).then(
-          )
+        if (user.user) {
+          user.user.updateProfile({
+            displayName: app.nome
+          }).then(function () {
+            app.$q.notify({
+              color: 'positive',
+              position: 'bottom-right',
+              message: 'Conta criada com sucesso',
+              timeout: 2500,
+              textColor: 'white',
+              actions: [{ icon: 'close', color: 'white' }]
+            })
+            app.$router.replace('/login')
+          }).catch((err) => {
+            this.$q.notify({
+              color: 'negative',
+              position: 'bottom-right',
+              message: err.message,
+              timeout: 2500,
+              textColor: 'white',
+              actions: [{ icon: 'close', color: 'white' }]
+            })
+          })
         }
-        this.$q.notify({
-          color: 'positive',
-          position: 'bottom-right',
-          message: 'Conta criada com sucesso',
-          timeout: 2500,
-          textColor: 'white',
-          actions: [{ icon: 'close', color: 'white' }]
-        }
-        )
-        this.$router.replace('/login')
       }).catch((err) => {
         if (err.code.toString() === 'auth/email-already-in-use') {
           this.$q.notify({
@@ -104,7 +113,7 @@ export default {
 <style>
   .q-gutter-md{
     background-color: white;
-    padding: 10%;
+    padding: 5%;
   }
   .link-nova{
     cursor: pointer;

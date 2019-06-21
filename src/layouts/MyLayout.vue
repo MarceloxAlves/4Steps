@@ -25,14 +25,12 @@
       bordered
       content-class="bg-grey-2"
     >
-      <div class="row text-center">
-        <div class="col-md-12">
+      <div class="flex flex-center">
           <q-icon name="person" class="text-blue-12" style="font-size: 6rem;" />
-        </div>
       </div>
-        <div class="flex flex-block flex-center">
-          <p>{{user.nome}}</p>
-          <p>{{user.email}}</p>
+      <div class="text-center">
+          <span class="block">{{user.nome}}</span>
+          <span class="block">{{user.email}}</span>
           <conta-edit :contaEditOpen="contaEditOpen"></conta-edit>
       </div>
 
