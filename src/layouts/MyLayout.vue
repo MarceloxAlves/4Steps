@@ -31,7 +31,7 @@
         </div>
       </div>
         <div class="flex flex-block flex-center">
-        <p>{{user.nome}}</p>
+          <p>{{user.nome}}</p>
           <p>{{user.email}}</p>
           <conta-edit :contaEditOpen="contaEditOpen"></conta-edit>
       </div>
