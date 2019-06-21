@@ -19,8 +19,9 @@ const routes = [
     path: '/projeto',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/ProjetoList.vue') },
-      { path: 'add', component: () => import('pages/ProjetoList.vue') }
+      { path: '', component: () => import('pages/projeto/ProjetoList.vue') },
+      { path: 'add', component: () => import('pages/projeto/ProjetoForm.vue') },
+      { path: ':projeto_id/edit', component: () => import('pages/projeto/ProjetoForm.vue') }
     ],
     meta: { requiresAuth: true }
   },

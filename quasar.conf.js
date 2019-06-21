@@ -42,6 +42,8 @@ module.exports = function (ctx) {
         'QItemSection',
         'QItemLabel',
         'QInput',
+        'QEditor',
+        'QColor',
         'QForm',
         'QToggle',
         'QDialog',
@@ -58,7 +60,12 @@ module.exports = function (ctx) {
         'QCarouselControl',
         'QCarouselSlide',
         'QUploader',
-        'QLinearProgress'
+        'QLinearProgress',
+        'QAvatar',
+        'QBreadcrumbs',
+        'QBreadcrumbsEl',
+        'QPopupProxy',
+        'QDate'
       ],
 
       directives: [

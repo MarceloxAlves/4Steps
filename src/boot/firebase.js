@@ -16,4 +16,5 @@ export const AUTH = fireApp.auth()
 export default ({ app, router, Vue }) => {
   Vue.prototype.$auth = AUTH
   Vue.prototype.$storage = fireApp.storage()
+  Vue.prototype.$firestore = fireApp.firestore()
 }

@@ -27,7 +27,9 @@
       content-class="bg-grey-2"
     >
       <div style="padding-top: 5px;" class="flex flex-center">
-          <q-img v-if="$auth.currentUser.photoURL" :src="$auth.currentUser.photoURL" style="width: 30%;" />
+          <q-avatar v-if="$auth.currentUser.photoURL" size="100px">
+            <q-img :src="$auth.currentUser.photoURL" />
+          </q-avatar>
           <q-icon v-else name="person" class="text-blue-12" style="font-size: 6rem;" />
       </div>
       <div class="text-center">
