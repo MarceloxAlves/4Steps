@@ -10,7 +10,7 @@
         </q-card-section>
         <q-card-section>
           <q-form
-            @submit="salvar"
+            @submit="updateUser"
             class="q-gutter-md"
           >
             <q-input
@@ -22,6 +22,15 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Digite seu Nome']"
             />
+            <q-input
+              filled
+              v-model="user.imagem"
+              type="file"
+              label=""
+              hint="Upload de uma imagem"
+              @change="onFileChange"
+            />
+            <q-linear-progress dark style="height: 5px" :value="fileprogress" color="green" />
             <div class="col-sm-12">
               <q-btn style="width: 100%" label="Salvar alterações" type="submit" color="primary"/>
             </div>
@@ -39,12 +48,12 @@ export default {
   data: function () {
     return {
       user: {
-        nome: ''
+        nome: '',
+        imagem: ''
       },
-      icon: false,
-      bar: false,
-      bar2: false,
-      toolbar: false
+      filedata: '',
+      fileprogress: 0.0,
+      icon: false
     }
   },
   created () {
@@ -53,33 +62,80 @@ export default {
     }
   },
   methods: {
-    salvar () {
-      let user = this.$auth.currentUser
+    onFileChange (event) {
+      this.filedata = event.target.files[0]
+    },
+    upload () {
       var app = this
-      if (user) {
-        user.updateProfile({
-          displayName: app.user.nome
-        }).then(function () {
-          app.$q.notify({
-            color: 'positive',
-            position: 'bottom-right',
-            message: 'Alterações salva com sucesso',
-            timeout: 2500,
-            textColor: 'white',
-            actions: [{ icon: 'close', color: 'white' }]
-          })
-        }).catch((err) => {
-          this.$q.notify({
-            color: 'negative',
-            position: 'bottom-right',
-            message: err.message,
-            timeout: 2500,
-            textColor: 'white',
-            actions: [{ icon: 'close', color: 'white' }]
+      if (this.user.imagem) {
+        var storageRef = this.$storage.ref()
+        var uploadTask = storageRef.child('/perfil/' + this.filedata.name).put(this.filedata)
+        uploadTask.on('state_changed', function (snapshot) {
+          app.fileprogress = (snapshot.bytesTransferred / snapshot.totalBytes)
+        }, function (error) {
+          app.$q.loading.hide()
+          switch (error.code) {
+            case 'storage/unauthorized':
+              // User doesn't have permission to access the object
+              break
+
+            case 'storage/canceled':
+              app.erroShow('Usuário cancelou o Storage')
+              break
+            case 'storage/unknown':
+              // Unknown error occurred, inspect error.serverResponse
+              break
+          }
+        }, function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            app.salvar({ displayName: app.user.nome, photoURL: downloadURL })
           })
         })
       }
+    },
+    updateUser () {
+      this.$q.loading.show()
+      if (this.user.imagem) {
+        this.upload()
+      } else {
+        this.salvar({ displayName: this.user.nome })
+      }
+    },
+    salvar (payload) {
+      let user = this.$auth.currentUser
+      var app = this
+      if (user) {
+        user.updateProfile(payload).then(function () {
+          app.successShow('Alterações salva com sucesso')
+          app.$q.loading.hide()
+        }).catch((err) => {
+          app.erroShow(err.message)
+          app.$q.loading.hide()
+        })
+      }
+    },
+
+    erroShow (erro) {
+      this.$q.notify({
+        color: 'negative',
+        position: 'bottom-right',
+        message: erro,
+        timeout: 2500,
+        textColor: 'white',
+        actions: [{ icon: 'close', color: 'white' }]
+      })
+    },
+    successShow (msg) {
+      this.$q.notify({
+        color: 'positive',
+        position: 'bottom-right',
+        message: msg,
+        timeout: 2500,
+        textColor: 'white',
+        actions: [{ icon: 'close', color: 'white' }]
+      })
     }
+
   }
 }
 </script>

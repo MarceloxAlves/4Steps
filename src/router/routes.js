@@ -16,6 +16,15 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/projeto',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ProjetoList.vue') },
+      { path: 'add', component: () => import('pages/ProjetoList.vue') }
+    ],
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/timeline',
     component: () => import('layouts/MyLayout.vue'),
     children: [

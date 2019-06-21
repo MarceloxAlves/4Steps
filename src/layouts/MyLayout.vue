@@ -26,8 +26,9 @@
       bordered
       content-class="bg-grey-2"
     >
-      <div class="flex flex-center">
-          <q-icon name="person" class="text-blue-12" style="font-size: 6rem;" />
+      <div style="padding-top: 5px;" class="flex flex-center">
+          <q-img v-if="$auth.currentUser.photoURL" :src="$auth.currentUser.photoURL" style="width: 30%;" />
+          <q-icon v-else name="person" class="text-blue-12" style="font-size: 6rem;" />
       </div>
       <div class="text-center">
           <span class="block">{{user.nome}}</span>
@@ -45,7 +46,7 @@
                   <q-item-label>Timeline</q-item-label>
               </q-item-section>
           </q-item>
-        <q-item clickable tag="a" >
+        <q-item clickable to="/projeto" tag="a" >
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>
@@ -54,7 +55,7 @@
             <q-item-label caption>Meus Projetos</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" >
+        <q-item clickable tag="a">
           <q-item-section avatar>
             <q-icon name="help" />
           </q-item-section>

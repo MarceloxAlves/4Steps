@@ -4,7 +4,7 @@ const firebaseConfig = {
   authDomain: 'steps-d0a6f.firebaseapp.com',
   databaseURL: 'https://steps-d0a6f.firebaseio.com',
   projectId: 'steps-d0a6f',
-  storageBucket: '',
+  storageBucket: 'steps-d0a6f.appspot.com',
   messagingSenderId: '656296469539',
   appId: '1:656296469539:web:7b6788c8ccd1e05a'
 }
@@ -15,4 +15,5 @@ export const AUTH = fireApp.auth()
 
 export default ({ app, router, Vue }) => {
   Vue.prototype.$auth = AUTH
+  Vue.prototype.$storage = fireApp.storage()
 }
