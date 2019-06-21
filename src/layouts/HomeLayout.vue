@@ -13,7 +13,7 @@ export default {
   name: 'HomeLayout',
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: true
       // leftDrawerOpen: this.$q.platform.is.desktop
     }
   },

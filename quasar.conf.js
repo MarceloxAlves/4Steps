@@ -48,7 +48,9 @@ module.exports = function (ctx) {
         'QCardSection',
         'QCardActions',
         'QBar',
-        'QSpace'
+        'QSpace',
+        'QTimeline',
+        'QTimelineEntry'
       ],
 
       directives: [
