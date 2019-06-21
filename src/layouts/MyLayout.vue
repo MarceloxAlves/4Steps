@@ -13,6 +13,7 @@
         </q-btn>
 
         <q-toolbar-title>
+         <div clickable tag="a" @click="timeline" ></div>
         4Steps
         </q-toolbar-title>
 
@@ -36,6 +37,14 @@
 
       <q-list>
         <q-item-label header>Opções</q-item-label>
+          <q-item clickable tag="a" @click="timeline"  >
+              <q-item-section avatar>
+                  <q-icon name="timeline" />
+              </q-item-section>
+              <q-item-section>
+                  <q-item-label>Timeline</q-item-label>
+              </q-item-section>
+          </q-item>
         <q-item clickable tag="a" >
           <q-item-section avatar>
             <q-icon name="school" />
@@ -102,6 +111,9 @@ export default {
       this.$auth.signOut().then(function () {
         app.$router.replace('/login')
       })
+    },
+    timeline () {
+      this.$router.replace('/timeline')
     }
   }
 }
