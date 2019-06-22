@@ -11,5 +11,19 @@ export default {
 </script>
 
 <style>
+  .edit{
+    float: right;
+  }
+  .edit:hover{
+    color: yellow;
+  }
+
+  .delete{
+    float: right;
+  }
+
+  .delete:hover{
+    color: red;
+  }
 
 </style>

@@ -1,6 +1,8 @@
-export const msg = {
+import { Notify, Dialog } from 'quasar'
+
+const Notificar = {
   success: function (msg) {
-    this.$q.notify({
+    Notify.create({
       color: 'positive',
       position: 'bottom-right',
       message: msg,
@@ -10,7 +12,7 @@ export const msg = {
     })
   },
   error: function (msg) {
-    this.$q.notify({
+    Notify.create({
       color: 'negative',
       position: 'bottom-right',
       message: msg,
@@ -18,9 +20,32 @@ export const msg = {
       textColor: 'white',
       actions: [{ icon: 'close', color: 'white' }]
     })
+  },
+  confirm: function (title, message) {
+    return new Promise(function (resolve, reject) {
+      Dialog.create({
+        title: title,
+        message: message,
+        ok: {
+          push: true
+        },
+        cancel: {
+          push: true,
+          color: 'negative',
+          label: 'Cancelar'
+        },
+        persistent: true
+      }).onOk(() => {
+        resolve('ok')
+      }).onCancel(() => {
+        reject('cancelou')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
+      })
+    })
   }
 }
 
 export default ({ Vue }) => {
-  Vue.prototype.$msg = msg
+  Vue.prototype.$msg = Notificar
 }

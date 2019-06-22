@@ -7,7 +7,8 @@ module.exports = function (ctx) {
     boot: [
       'i18n',
       'axios',
-      'firebase'
+      'firebase',
+      'constante'
     ],
 
     css: [
@@ -76,7 +77,8 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify',
-        'Loading'
+        'Loading',
+        'Dialog'
       ]
 
       // iconSet: 'ionicons-v4'

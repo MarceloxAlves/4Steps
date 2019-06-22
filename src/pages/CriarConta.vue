@@ -68,6 +68,7 @@ export default {
   methods: {
     login () {
       var app = this
+      app.$q.loading.show()
       this.$auth.createUserWithEmailAndPassword(this.email, this.password).then((user) => {
         if (user.user) {
           user.user.updateProfile({
@@ -81,6 +82,7 @@ export default {
               textColor: 'white',
               actions: [{ icon: 'close', color: 'white' }]
             })
+            app.$q.loading.hide()
             app.$router.replace('/login')
           }).catch((err) => {
             this.$q.notify({
@@ -94,6 +96,7 @@ export default {
           })
         }
       }).catch((err) => {
+        app.$q.loading.hide()
         if (err.code.toString() === 'auth/email-already-in-use') {
           this.$q.notify({
             color: 'negative',

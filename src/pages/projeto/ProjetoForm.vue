@@ -87,19 +87,54 @@ export default {
         descricao: '',
         color: '#FF00FF',
         admin: this.$auth.currentUser.toJSON()
-      }
+      },
+      editando: false
+    }
+  },
+  created () {
+    if (this.$route.params.projeto_id) {
+      this.editando = true
+      this.getProjeto()
     }
   },
   methods: {
+    getProjeto () {
+      var app = this
+      this.$q.loading.show()
+      this.$firestore.collection('projetos').doc(this.$route.params.projeto_id).get()
+        .then(function (doc) {
+          app.projeto = doc.data()
+          app.$q.loading.hide()
+        })
+        .catch(function () {
+          app.$q.loading.hide()
+          app.$msg.error('Erro ao carregar projeto ')
+        })
+    },
     salvar () {
       var app = this
-      this.$firestore.collection('projetos').doc().set(this.projeto)
-        .then(function () {
-          app.msg.success('Projeto salvo com sucesso!')
-        })
-        .catch(function (err) {
-          app.msg.error('Erro ao salvar projeto ' + err.message)
-        })
+      this.$q.loading.show()
+      if (this.editando) {
+        this.$firestore.collection('projetos').doc(this.$route.params.projeto_id).update(this.projeto)
+          .then(function () {
+            app.$q.loading.hide()
+            app.$msg.success('Projeto alterado com sucesso!')
+          })
+          .catch(function (err) {
+            app.$q.loading.hide()
+            app.$msg.error('Erro ao alterar projeto ' + err.message)
+          })
+      } else {
+        this.$firestore.collection('projetos').doc().set(this.projeto)
+          .then(function () {
+            app.$q.loading.hide()
+            app.$msg.success('Projeto salvo com sucesso!')
+          })
+          .catch(function (err) {
+            app.$q.loading.hide()
+            app.$msg.error('Erro ao salvar projeto ' + err.message)
+          })
+      }
     }
   }
 }
