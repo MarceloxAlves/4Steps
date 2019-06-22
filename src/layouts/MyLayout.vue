@@ -16,6 +16,16 @@
          <div clickable tag="a" @click="timeline" ></div>
         4Steps
         </q-toolbar-title>
+        <q-space></q-space>
+
+        <q-btn flat round dense icon="apps" class="q-mr-xs" />
+        <q-btn flat round dense icon="more_vert" />
+        <div  style="padding: 5px;" class="flex flex-center">
+          <q-avatar tag="a" v-if="$auth.currentUser.photoURL" size="40px">
+            <q-img :src="$auth.currentUser.photoURL" />
+          </q-avatar>
+          <q-icon v-else name="person" class="text-white" style="font-size: 2rem;" ></q-icon>
+        </div>
 
         <div></div>
       </q-toolbar>

@@ -21,7 +21,8 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/projeto/ProjetoList.vue') },
       { path: 'add', component: () => import('pages/projeto/ProjetoForm.vue') },
-      { path: ':projeto_id/edit', component: () => import('pages/projeto/ProjetoForm.vue') }
+      { path: ':projeto_id/edit', component: () => import('pages/projeto/ProjetoForm.vue') },
+      { path: ':projeto_id/view', component: () => import('pages/projeto/ProjetoView.vue') }
     ],
     meta: { requiresAuth: true }
   },

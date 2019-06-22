@@ -24,7 +24,7 @@
             />
           </div>
           <div class="col-12  input">
-            Descrição do proejto
+            Descrição do projeto
             <q-editor v-model="projeto.descricao" min-height="5rem" />
           </div>
           <div class="col-12  col-md-4 input">
@@ -85,7 +85,7 @@ export default {
         data_incial: '',
         data_final: '',
         descricao: '',
-        color: '#FF00FF',
+        color: '#014a88',
         admin: this.$auth.currentUser.toJSON()
       },
       editando: false

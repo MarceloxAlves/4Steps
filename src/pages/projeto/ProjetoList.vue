@@ -1,32 +1,37 @@
 <template>
-  <q-page  class="flex flex-center">
-    <q-card @click="novo" class="card-project text-white flex flex-center">
-      <q-card-section>
-        <q-icon name="add" clickable style="font-size: 6rem;" />
-      </q-card-section>
-    </q-card>
-    <q-card v-for="(projeto, index) in projetos" :key="index"
-      class="card-project text-white" :style="'background: radial-gradient(circle, #333 0%, '+ projeto.color + ' 0%);'">
-      <q-card-section>
-        <div class="row text-h6" style="width: 100%">
-          <div class="col-8 text-center">
-            {{projeto.nome}}
+  <q-page class="row">
+    <div class="col-12 flex flex-center page">
+      <div style="width: 100%" class="text-h4 text-center">Meus Projetos</div>
+      <q-card @click="novo" class="card-project text-white flex flex-center">
+        <q-card-section>
+          <q-icon name="add" clickable style="font-size: 6rem;" />
+        </q-card-section>
+      </q-card>
+      <q-card v-for="(projeto, index) in projetos" :key="index" :to="'projeto/'+ projeto.id +'/view'"
+              class="card-project text-white" :style="'background: radial-gradient(circle, #333 0%, '+ projeto.color + ' 0%);'">
+        <q-card-section>
+          <div class="row text-h6" style="width: 100%">
+            <div class="col-4 text-center">
+              <q-btn icon="visibility" :to="'projeto/'+ projeto.id +'/view'" dense  />
+            </div>
+            <div class="col-4">
+              <q-btn icon="edit" class="edit" :to="'projeto/'+ projeto.id +'/edit'" dense  />
+            </div>
+            <div class="col-4">
+              <q-btn icon="delete" class="delete"  @click="onDelete(projeto)" dense  />
+            </div>
+            <div class="col-12" style="border-bottom: 1px solid white">
+              {{projeto.nome}}
+            </div>
           </div>
-          <div class="col-2">
-            <q-btn icon="delete" class="delete"  @click="onDelete(projeto)" dense  />
-          </div>
-          <div class="col-2">
-            <q-btn icon="edit" class="edit" :to="'projeto/'+ projeto.id +'/edit'" dense  />
-          </div>
-        </div>
-        <small  class="col-12 text-justify">{{projeto.admin.displayName}}</small>
-      </q-card-section>
+          <small  class="col-12 text-justify">{{projeto.admin.displayName}}</small>
+        </q-card-section>
 
-      <q-card-section style="overflow: hidden; max-height:80px">
-        <p v-html="projeto.descricao"></p>
-      </q-card-section>
-    </q-card>
-
+        <q-card-section style="overflow: hidden; max-height:80px">
+          <p v-html="projeto.descricao"></p>
+        </q-card-section>
+      </q-card>
+    </div>
   </q-page>
 </template>
 <script>

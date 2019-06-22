@@ -25,5 +25,8 @@ export default {
   .delete:hover{
     color: red;
   }
+  .page{
+    background-color: #f0f0f0;
+  }
 
 </style>
