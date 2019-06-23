@@ -45,7 +45,6 @@
                   <hr>
                   <div class="text-h6">{{projeto.nome}}</div>
                   <p v-html="projeto.descricao" class="text-justify"></p>
-                  <Timeline :projeto="projeto"></Timeline>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos de Trabalho">
@@ -66,12 +65,18 @@
                   <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
                   <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
                 </q-tab-panel>
+
+                <q-tab-panel name="Colaboradores">
+                  <div class="text-h6 q-mb-md">Colaboradores do Projeto</div>
+                  <p></p>
+                </q-tab-panel>
+
               </q-tab-panels>
             </template>
           </q-splitter>
       </div>
       <div class="col-12 col-md-3">
-        <div class="text-h4">{{projeto.nome}}</div>
+        <Timeline :projeto="projeto"></Timeline>
       </div>
     </div>
   </q-page>
@@ -136,9 +141,10 @@ export default {
     getProjeto () {
       var app = this
       this.$q.loading.show()
-      this.$firestore.collection('projetos').doc(this.$route.params.projeto_id).get()
-        .then(function (doc) {
+      this.$firestore.collection('projetos').doc(this.$route.params.projeto_id)
+        .onSnapshot(function (doc) {
           app.projeto = doc.data()
+          app.id = doc.id
           app.$q.loading.hide()
         })
         .catch(function () {
