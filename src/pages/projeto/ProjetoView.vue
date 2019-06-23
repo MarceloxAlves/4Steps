@@ -13,7 +13,7 @@
       <div class="col-12 col-md-9">
           <q-splitter
             v-model="splitterModel"
-            style="height: 400px"
+            style="height: auto"
           >
             <template v-slot:before>
               <div class="q-pa-md" >
@@ -45,6 +45,7 @@
                   <hr>
                   <div class="text-h6">{{projeto.nome}}</div>
                   <p v-html="projeto.descricao" class="text-justify"></p>
+                  <Timeline :projeto="projeto"></Timeline>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos de Trabalho">
@@ -77,8 +78,10 @@
 </template>
 
 <script>
+import Timeline from '../TimeLine'
 export default {
   name: 'ProjetoForm',
+  components: { Timeline },
   data () {
     return {
       projeto: {},

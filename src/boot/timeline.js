@@ -1,5 +1,5 @@
 import { FIRESTORE, AUTH } from './firebase'
-import { Notificar } from './constante'
+// import { Notificar } from './constante'
 
 const timeline = {
   register: function (mensagem, linkProjeto, linkObjeto) {
@@ -11,10 +11,12 @@ const timeline = {
       usuario: FIRESTORE.collection('users').doc(AUTH.currentUser.uid)
     })
       .then(function () {
-        Notificar.success('Timeline salvada com sucesso')
+        console.log('Timeline salvada com sucesso')
+        // Notificar.success('Timeline salvada com sucesso')
       })
       .catch(function (err) {
-        Notificar.error('Deu ruim: ' + err.message)
+        console.log('Timeline error: ' + err.message)
+        // Notificar.error('Deu ruim: ' + err.message)
       })
   }
 }
