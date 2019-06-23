@@ -144,7 +144,7 @@ export default {
       this.$firestore.collection('projetos').doc(this.$route.params.projeto_id)
         .onSnapshot(function (doc) {
           app.projeto = doc.data()
-          app.id = doc.id
+          app.projeto.id = doc.id
           app.$q.loading.hide()
         })
         .catch(function () {
