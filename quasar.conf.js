@@ -26,7 +26,7 @@ module.exports = function (ctx) {
 
     framework: {
       // all: true, // --- includes everything; for dev only!
-
+      lang: 'pt-br',
       components: [
         'QLayout',
         'QHeader',
@@ -73,7 +73,8 @@ module.exports = function (ctx) {
         'QTab',
         'QRouteTab',
         'QTabPanels',
-        'QTabPanel'
+        'QTabPanel',
+        'QMenu'
       ],
 
       directives: [

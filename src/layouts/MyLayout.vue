@@ -20,12 +20,29 @@
 
         <q-btn flat round dense icon="apps" class="q-mr-xs" />
         <q-btn flat round dense icon="more_vert" />
-        <div  style="padding: 5px;" class="flex flex-center">
-          <q-avatar tag="a" v-if="$auth.currentUser.photoURL" size="40px">
-            <q-img :src="$auth.currentUser.photoURL" />
-          </q-avatar>
-          <q-icon v-else name="person" class="text-white" style="font-size: 2rem;" ></q-icon>
-        </div>
+        <q-btn color="white" flat :label="$auth.currentUser.displayName">
+          <q-menu>
+            <div class="row no-wrap q-pa-md">
+              <div class="column items-center">
+                <div  style="padding: 5px;" class="flex flex-center">
+                  <q-avatar tag="a" v-if="$auth.currentUser.photoURL" size="60px">
+                    <q-img :src="$auth.currentUser.photoURL" />
+                  </q-avatar>
+                  <q-icon v-else name="person" class="text-blue-12" style="font-size: 2rem;" ></q-icon>
+                </div>
+                <div class="text-subtitle1 q-mt-md q-mb-xs">{{$auth.currentUser.displayName}}</div>
+                <q-btn
+                  color="primary"
+                  @click="logout"
+                  label="Sair"
+                  push
+                  size="sm"
+                  v-close-popup
+                />
+              </div>
+            </div>
+          </q-menu>
+        </q-btn>
 
         <div></div>
       </q-toolbar>
@@ -50,14 +67,15 @@
 
       <q-list>
         <q-item-label header>Opções</q-item-label>
-          <q-item clickable tag="a" @click="timeline"  >
-              <q-item-section avatar>
-                  <q-icon name="timeline" />
-              </q-item-section>
-              <q-item-section>
-                  <q-item-label>Timeline</q-item-label>
-              </q-item-section>
-          </q-item>
+        <q-item clickable to="/home" tag="a" >
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Início</q-item-label>
+            <q-item-label caption>Visão geral da plataforma</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable to="/projeto" tag="a" >
           <q-item-section avatar>
             <q-icon name="school" />
@@ -67,6 +85,14 @@
             <q-item-label caption>Meus Projetos</q-item-label>
           </q-item-section>
         </q-item>
+          <q-item clickable tag="a" @click="timeline"  >
+              <q-item-section avatar>
+                  <q-icon name="timeline" />
+              </q-item-section>
+              <q-item-section>
+                  <q-item-label>Timeline</q-item-label>
+              </q-item-section>
+          </q-item>
         <q-item clickable tag="a">
           <q-item-section avatar>
             <q-icon name="help" />
