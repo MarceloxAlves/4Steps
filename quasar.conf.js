@@ -8,7 +8,8 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'firebase',
-      'constante'
+      'constante',
+      'timeline'
     ],
 
     css: [

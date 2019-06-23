@@ -1,6 +1,6 @@
 import { Notify, Dialog } from 'quasar'
 
-const Notificar = {
+export const Notificar = {
   success: function (msg) {
     Notify.create({
       color: 'positive',
