@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el to="/home" label="Início" icon="home"/>
           <q-breadcrumbs-el to="/projeto" label="Projeto" icon="widgets"/>
-          <q-breadcrumbs-el :label="projeto.nome"/>
+          <q-breadcrumbs-el class="text-bold" :style="'color:' + projeto.color + ';'" :label="projeto.nome"/>
         </q-breadcrumbs>
       </q-card-section>
     </q-card>
@@ -13,14 +13,20 @@
       <div class="col-12 col-md-9">
           <q-splitter
             v-model="splitterModel"
-            style="height: 400px"
+            style="height: auto"
           >
             <template v-slot:before>
-              <div class="q-pa-md">
+              <div class="q-pa-md" >
+                <q-input ref="filter" filled v-model="filter" label="Filter">
+                  <template v-slot:append>
+                    <q-icon v-if="filter !== ''" name="clear" class="cursor-pointer" @click="resetFilter" />
+                  </template>
+                </q-input>
                 <q-tree
                   :nodes="simple"
                   node-key="label"
                   selected-color="primary"
+                  :filter="filter"
                   :selected.sync="selected"
                   default-expand-all
                 />
@@ -39,6 +45,7 @@
                   <hr>
                   <div class="text-h6">{{projeto.nome}}</div>
                   <p v-html="projeto.descricao" class="text-justify"></p>
+                  <Timeline :projeto="projeto"></Timeline>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos de Trabalho">
@@ -71,16 +78,34 @@
 </template>
 
 <script>
+import Timeline from '../TimeLine'
 export default {
   name: 'ProjetoForm',
+  components: { Timeline },
   data () {
     return {
       projeto: {},
       splitterModel: 50,
       selected: 'Detalhes do projeto',
+      filter: '',
       simple: [
         {
           label: 'Detalhes do projeto',
+          children: [
+            {
+              label: 'Colaboradores',
+              icon: 'peoples',
+              id: 'ztcxIcvBpYMZOPWDSxqo'
+            },
+            {
+              label: 'Prazos',
+              icon: 'layers',
+              id: 'gVLfM4kRENodgVI7XFWK'
+            }
+          ]
+        },
+        {
+          label: 'Recursos do Projeto',
           children: [
             {
               label: 'Recursos de Trabalho',
@@ -120,17 +145,21 @@ export default {
           app.$q.loading.hide()
           app.$msg.error('Erro ao carregar projeto ')
         })
+    },
+    resetFilter () {
+      this.filter = ''
+      this.$refs.filter.focus()
     }
   }
 }
 </script>
 
-<style scoped>
-  .input{
-    padding-right: 10px;
-    margin-bottom: 10px;
+<style >
+  .q-splitter__before{
+    width:30% !important;
   }
-  .color-imput{
-    margin-left: 50%;
+  .q-splitter__after{
+    width:70% !important;
   }
+
 </style>

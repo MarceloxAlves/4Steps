@@ -3,7 +3,7 @@
       <div class="q-px-lg q-pb-md">
           <q-timeline color="secondary">
               <q-timeline-entry heading>
-                  Timeline heading
+                 Aqui é o header {{projeto.nome}}
               </q-timeline-entry>
 
               <q-timeline-entry
@@ -27,7 +27,17 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  name: 'Timeline',
+  props: ['projeto'],
+  data () {
+    return {
+      teste: 'teste'
+    }
+  },
+  created () {
+  },
+  methods: {
+  }
 }
 </script>
 

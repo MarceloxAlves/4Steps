@@ -118,6 +118,7 @@ export default {
         this.$firestore.collection('projetos').doc(this.$route.params.projeto_id).update(this.projeto)
           .then(function () {
             app.$q.loading.hide()
+            app.$timeline.register('alteração de projeto', app.$firestore.collection('projetos').doc(app.$route.params.projeto_id), app.$firestore.collection('projetos').doc(app.$route.params.projeto_id))
             app.$msg.success('Projeto alterado com sucesso!')
           })
           .catch(function (err) {

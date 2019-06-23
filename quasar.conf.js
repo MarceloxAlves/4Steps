@@ -8,7 +8,8 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'firebase',
-      'constante'
+      'constante',
+      'timeline'
     ],
 
     css: [
@@ -26,7 +27,7 @@ module.exports = function (ctx) {
 
     framework: {
       // all: true, // --- includes everything; for dev only!
-
+      lang: 'pt-br',
       components: [
         'QLayout',
         'QHeader',
@@ -73,7 +74,8 @@ module.exports = function (ctx) {
         'QTab',
         'QRouteTab',
         'QTabPanels',
-        'QTabPanel'
+        'QTabPanel',
+        'QMenu'
       ],
 
       directives: [
