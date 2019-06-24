@@ -14,9 +14,9 @@
                 <q-form class="row"
                 @submit="salvar">
                     <div class="col-12 input">
-                      <q-select v-model="model" :options="options" label="Tipo de Recurso" />
+                      <q-select filled v-model="recurso.tipo_recurso_id" :options="options" label="Tipo de Recurso" emit-value map-options/>
                     </div>
-                    <div class="col-12  input">
+                    <div class="col-12 input">
                         <q-input
                             filled
                             v-model="recurso.nome"
@@ -74,9 +74,24 @@ export default {
         quantidade: 0,
         valor: 0.0,
         disponivel: false,
-        projeto_id: this.$route.params.projeto_id
+        projeto_id: this.$route.params.projeto_id,
+        tipo_recurso_id: ''
       },
-      editando: false
+      editando: false,
+      options: [
+        {
+          label: 'Recurso de Trabalho',
+          value: 'ztcxIcvBpYMZOPWDSxqo'
+        },
+        {
+          label: 'Recurso Material',
+          value: 'gVLfM4kRENodgVI7XFWK'
+        },
+        {
+          label: 'Recurso de Custo',
+          value: 'j24nWQIVwFKB1riHntaH'
+        }
+      ]
     }
   },
   created () {
