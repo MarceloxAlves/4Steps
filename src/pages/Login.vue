@@ -60,20 +60,10 @@ export default {
   },
   methods: {
     login () {
-      var app = this
-      this.$q.loading.show()
-      this.$auth.setPersistence('session').then(function () {
-        app.$auth.signInWithEmailAndPassword(app.email, app.password).then((user) => {
-          app.$q.loading.hide()
-          app.$router.replace('/home')
-        }).catch((err) => {
-          app.$q.notify(err.message)
-          app.$q.loading.hide()
-        })
-      }).catch((err) => {
-        app.$q.loading.hide()
-        app.$q.notify(err.message)
-      })
+      let logged = this.$models.user.login(this.email, this.password)
+      if (logged) {
+        this.$router.replace('/home')
+      }
     }
   }
 }

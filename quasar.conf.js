@@ -9,7 +9,8 @@ module.exports = function (ctx) {
       'axios',
       'firebase',
       'constante',
-      'timeline'
+      'timeline',
+      'models'
     ],
 
     css: [
@@ -75,7 +76,10 @@ module.exports = function (ctx) {
         'QRouteTab',
         'QTabPanels',
         'QTabPanel',
-        'QMenu'
+        'QMenu',
+        'QSelect',
+        'QRadio',
+        'QBadge'
       ],
 
       directives: [
