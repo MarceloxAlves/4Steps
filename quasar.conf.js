@@ -79,7 +79,8 @@ module.exports = function (ctx) {
         'QMenu',
         'QSelect',
         'QRadio',
-        'QBadge'
+        'QBadge',
+        'QChip'
       ],
 
       directives: [

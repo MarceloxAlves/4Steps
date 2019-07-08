@@ -47,49 +47,22 @@
                   <p v-html="projeto.descricao" class="text-justify"></p>
                 </q-tab-panel>
                 <q-tab-panel name="Recursos do Projeto">
-                  <div class="text-h4 q-mb-md">Recursos do projeto</div>
-                  <q-btn label="Adicionar Recurso" @click="novoRecurso" color="primary"/>
+                  <div class="text-h5 q-mb-md">Recursos do projeto</div>
+                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
                 </q-tab-panel>
                 <q-tab-panel name="Recursos de Trabalho">
                   <div class="text-h4 q-mb-md">Recursos de Trabalho</div>
-                    <q-list dense padding class="rounded-borders">
-                      <q-item clickable v-ripple>
-                        <q-item-section v-for="(recurso, index) in recursosTrabalho" :key="index" >
-                          {{recurso.nome}}
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
+                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos Materiais">
                   <div class="text-h4 q-mb-md">Recursos Materiais</div>
-                  <q-btn push label="Adicionar Recurso" @click="novoRecurso" color="primary"/>
-                  <q-list dense padding class="rounded-borders">
-                    <q-item clickable v-for="(recurso, index) in recursosMateriais" :key="index">
-                      <q-item-section>
-                        <q-item-label> {{recurso.nome}}</q-item-label>
-                        <q-item-label caption>{{recurso.descricao}}</q-item-label>
-                      </q-item-section>
-
-                      <q-item-section side top>
-                        <q-badge color="teal" label="10k" />
-                      </q-item-section>
-                      <q-item-section side top>
-                        <q-btn flat label="Fornecedores" icon="truck" color="secondary"/>
-                      </q-item-section>
-                    </q-item>
-                    </q-list>
+                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos de Custos">
                   <div class="text-h4 q-mb-md">Recursos de Custos</div>
-                  <q-list dense padding class="rounded-borders">
-                      <q-item clickable v-ripple>
-                        <q-item-section v-for="(recurso, index) in recursosCustos" :key="index" >
-                          {{recurso.nome}}
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
+                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
                 </q-tab-panel>
 
                 <q-tab-panel name="Colaboradores">
@@ -114,9 +87,10 @@
 
 <script>
 import TimeLine from '../TimeLine'
+import RecursoList from '../recurso/RecursoList'
 export default {
   name: 'ProjetoForm',
-  components: { TimeLine },
+  components: { RecursoList, TimeLine },
   data () {
     return {
       projeto: {},
