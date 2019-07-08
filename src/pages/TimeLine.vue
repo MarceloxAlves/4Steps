@@ -7,9 +7,9 @@
 
               <q-timeline-entry
                       v-for="(acontecimento, index) in feed" :key="index"
-                      :title="acontecimento.usuario.id"
+                      :title="acontecimento.usuario.displayName"
                       :subtitle="Date().valueOf(acontecimento.dt_criacao)"
-                      :avatar="acontecimento.usuario.photoURL"
+                      avatar="https://lh3.googleusercontent.com/a-/AAuE7mCe-X3hKfmKs7h246ZPpDSY3FKcaj55AZPK9qgoVQ=s96"
               >
                   <div>
                       Dunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -48,7 +48,7 @@ export default {
       //     projetoRef = doc
       //   })
       console.log(projetoRef)
-      app.$firestore.collection('timeline').where('projeto', '==', projetoRef)
+      this.$firestore.collection('timeline').where('projeto', '==', projetoRef)
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {

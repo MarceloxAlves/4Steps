@@ -106,15 +106,17 @@
           </q-splitter>
       </div>
       <div class="col-12 col-md-3">
-        <p>Timeline do projeto</p>
+        <TimeLine></TimeLine>
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
+import TimeLine from '../TimeLine'
 export default {
   name: 'ProjetoForm',
+  components: { TimeLine },
   data () {
     return {
       projeto: {},
