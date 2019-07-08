@@ -141,14 +141,16 @@ export default {
           app.$msg.error('Erro ao exibir ')
         })
     },
-    salvar () {
+    async salvar () {
       var app = this
+      var projetoRef = await app.$firestore.collection('projetos').doc(this.projeto.id)
       this.$q.loading.show()
       if (this.editando) {
         this.$firestore.collection('recursos').doc(this.$route.params.recurso_id).update(this.recurso)
-          .then(function () {
+          .then(function (recurso) {
             app.$q.loading.hide()
             app.$msg.success('Recurso salvo com sucesso!')
+            app.$models.timeline.add('Recurso alterado', projetoRef, null)
           })
           .catch(function (err) {
             app.$q.loading.hide()
@@ -156,8 +158,9 @@ export default {
           })
       } else {
         this.$firestore.collection('recursos').doc().set(this.recurso)
-          .then(function () {
+          .then(function (recurso) {
             app.$q.loading.hide()
+            app.$models.timeline.add('Recurso adicionado', projetoRef, null)
             app.$msg.success('Recurso salvo com sucesso!')
           })
           .catch(function (err) {
