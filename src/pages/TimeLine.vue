@@ -3,17 +3,16 @@
       <div class="q-px-lg q-pb-md">
           <q-timeline color="secondary">
               <q-timeline-entry heading>
-                 Aqui é o header {{projeto.nome}}
               </q-timeline-entry>
 
               <q-timeline-entry
-                      v-for="n in 15" :key="n"
-                      :title="$auth.currentUser.email"
-                      subtitle="February 21, 1986"
-                      avatar="https://lh3.googleusercontent.com/a-/AAuE7mCe-X3hKfmKs7h246ZPpDSY3FKcaj55AZPK9qgoVQ=s96"
+                      v-for="(acontecimento, index) in feed" :key="index"
+                      :title="acontecimento.usuario.id"
+                      :subtitle="Date().valueOf(acontecimento.dt_criacao)"
+                      :avatar="acontecimento.usuario.photoURL"
               >
                   <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      Dunt in culpa qui officia deserunt mollit anim id est laborum.
                   </div>
               </q-timeline-entry>
           </q-timeline>
@@ -31,12 +30,39 @@ export default {
   props: ['projeto'],
   data () {
     return {
-      teste: 'teste'
+      feed: []
     }
   },
   created () {
+    this.onreload()
   },
   methods: {
+    async onreload () {
+      var app = this
+      var projetoRef = app.$firestore
+        .collection('projetos')
+        .doc(app.projeto.id)
+      // await app.$firestore
+      //   .collection('projetos')
+      //   .doc(app.projeto.id).get().then((doc) => {
+      //     projetoRef = doc
+      //   })
+      console.log(projetoRef)
+      app.$firestore.collection('timeline').where('projeto', '==', projetoRef)
+        .get()
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            let obj = doc.data()
+            obj.id = doc.id
+            app.feed.push(obj)
+          })
+          app.$q.loading.hide()
+        })
+        .catch(function (error) {
+          app.$msg.error('Erro ao carregar os dados' + error.message)
+          app.$q.loading.hide()
+        })
+    }
   }
 }
 </script>
