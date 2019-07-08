@@ -16,7 +16,7 @@ export const Notificar = {
       color: 'negative',
       position: 'bottom-right',
       message: msg,
-      timeout: 2500,
+      timeout: 5000,
       textColor: 'white',
       actions: [{ icon: 'close', color: 'white' }]
     })
@@ -45,7 +45,6 @@ export const Notificar = {
     })
   }
 }
-
 export default ({ Vue }) => {
   Vue.prototype.$msg = Notificar
 }

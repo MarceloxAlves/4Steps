@@ -26,28 +26,32 @@
                             :rules="[ val => val && val.length > 0 || 'Digite o nome do recurso']"
                         />
                     </div>
-                    <div class="col-12 input">
-                        <q-input
-                            filled
-                            v-model="recurso.valor"
-                            label="Valor"
-                            mask="#.##"
-                            fill-mask="0"
-                            reverse-fill-mask
-                            input-class="text-right"
-                        />
-                    </div>
-                    <div class="col-12 input">
-                        Quantidade
+                    <div class="col-4 input">
                         <q-input
                             v-model.number="recurso.quantidade"
                             type="number"
+                            label="Quantidade"
                             filled
-                            style="max-width: 200px"
                         />
                     </div>
+                    <div class="col-4 input">
+                      <q-select filled v-model="recurso.unidade" :options="unidades" label="Unidade" emit-value map-options/>
+                    </div>
+                  <div class="col-4 input">
+                    <q-input
+                      filled
+                      v-model="recurso.valor"
+                      label="Valor"
+                      mask="#.##"
+                      fill-mask="0"
+                      reverse-fill-mask
+                      input-class="text-right"
+                    />
+                  </div>
                     <div class="col-12 input">
-                        <q-toggle v-model="recurso.disponivel" label="Disponível" />
+                        <q-radio keep-color v-model="recurso.disponivel" val="0" label="Disponível" color="green" />
+                        <q-radio keep-color v-model="recurso.disponivel" val="1" label="Fazer" color="orange" />
+                        <q-radio keep-color v-model="recurso.disponivel" val="2" label="Comprar" color="red" />
                     </div>
                     <div class="col-12  input">
                         Descrição do Recurso
@@ -75,7 +79,8 @@ export default {
         valor: 0.0,
         disponivel: false,
         projeto_id: this.$route.params.projeto_id,
-        tipo_recurso_id: ''
+        tipo_recurso_id: '',
+        unidade: ''
       },
       editando: false,
       options: [
@@ -90,6 +95,28 @@ export default {
         {
           label: 'Recurso de Custo',
           value: 'j24nWQIVwFKB1riHntaH'
+        }
+      ],
+      unidades: [
+        {
+          label: 'Unidade',
+          value: '1'
+        },
+        {
+          label: 'Pacote',
+          value: '2'
+        },
+        {
+          label: 'Caixa',
+          value: '4'
+        },
+        {
+          label: 'Hora',
+          value: '5'
+        },
+        {
+          label: 'Metro',
+          value: '6'
         }
       ]
     }

@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  // name: 'PageName',
+  name: 'Dashboard',
+  data () {
+    return {
+      teste: null
+    }
+  },
+  created () {
+  }
 }
 </script>
 

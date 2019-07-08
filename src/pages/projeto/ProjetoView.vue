@@ -46,7 +46,10 @@
                   <div class="text-h6">{{projeto.nome}}</div>
                   <p v-html="projeto.descricao" class="text-justify"></p>
                 </q-tab-panel>
-
+                <q-tab-panel name="Recursos do Projeto">
+                  <div class="text-h4 q-mb-md">Recursos do projeto</div>
+                  <q-btn label="Adicionar Recurso" @click="novoRecurso" color="primary"/>
+                </q-tab-panel>
                 <q-tab-panel name="Recursos de Trabalho">
                   <div class="text-h4 q-mb-md">Recursos de Trabalho</div>
                     <q-list dense padding class="rounded-borders">
@@ -60,12 +63,21 @@
 
                 <q-tab-panel name="Recursos Materiais">
                   <div class="text-h4 q-mb-md">Recursos Materiais</div>
+                  <q-btn push label="Adicionar Recurso" @click="novoRecurso" color="primary"/>
                   <q-list dense padding class="rounded-borders">
-                      <q-item clickable v-ripple>
-                        <q-item-section v-for="(recurso, index) in recursosMateriais" :key="index" >
-                          {{recurso.nome}}
-                        </q-item-section>
-                      </q-item>
+                    <q-item clickable v-for="(recurso, index) in recursosMateriais" :key="index">
+                      <q-item-section>
+                        <q-item-label> {{recurso.nome}}</q-item-label>
+                        <q-item-label caption>{{recurso.descricao}}</q-item-label>
+                      </q-item-section>
+
+                      <q-item-section side top>
+                        <q-badge color="teal" label="10k" />
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-btn flat label="Fornecedores" icon="truck" color="secondary"/>
+                      </q-item-section>
+                    </q-item>
                     </q-list>
                 </q-tab-panel>
 
@@ -82,25 +94,27 @@
 
                 <q-tab-panel name="Colaboradores">
                   <div class="text-h6 q-mb-md">Colaboradores do Projeto</div>
-                  <p></p>
+                  <q-input  type="email" ref="filter" filled v-model="colaborador" label="email do colaborador">
+                    <template v-slot:append>
+                      <q-icon v-if="colaborador !== ''" name="search" class="cursor-pointer" @click="procurarColaborador" />
+                    </template>
+                  </q-input>
+                  {{colaboradorFilter}}
                 </q-tab-panel>
               </q-tab-panels>
-              <q-btn label="Adicionar Recurso" @click="novoRecurso" color="primary"/>
             </template>
           </q-splitter>
       </div>
       <div class="col-12 col-md-3">
-        <Timeline :projeto="projeto"></Timeline>
+        <p>Timeline do projeto</p>
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import Timeline from '../TimeLine'
 export default {
   name: 'ProjetoForm',
-  components: { Timeline },
   data () {
     return {
       projeto: {},
@@ -110,6 +124,8 @@ export default {
       splitterModel: 50,
       selected: 'Detalhes do projeto',
       filter: '',
+      colaborador: '',
+      colaboradorFilter: '',
       simple: [
         {
           label: 'Detalhes do projeto',
@@ -167,14 +183,24 @@ export default {
           app.projeto.id = doc.id
           app.$q.loading.hide()
         })
-        .catch(function () {
-          app.$q.loading.hide()
-          app.$msg.error('Erro ao carregar projeto ')
-        })
     },
     resetFilter () {
       this.filter = ''
       this.$refs.filter.focus()
+    },
+    procurarColaborador () {
+      var app = this
+      this.$q.loading.show()
+      console.log(this.$admin)
+      this.$admin.auth().getUserByEmail(app.colaborador)
+        .then(function (userRecord) {
+          console.log(userRecord)
+          app.$q.loading.hide()
+        })
+        .catch(function (err) {
+          app.$q.loading.hide()
+          app.$msg.error('Erro ao carregar  usuário Codigo:' + err.code + ' Message: ' + err.message)
+        })
     },
     novoRecurso () {
       this.$router.replace(this.$route.path + '/recursos/add')
@@ -220,6 +246,19 @@ export default {
           app.$msg.error('Erro ao carregar os dados' + error.message)
           app.$q.loading.hide()
         })
+
+      app.recursosMateriais = [
+        {
+          nome: 'Cabos Eternet',
+          descricao: 'Será utilizado 12 metros na instalação de access point',
+          quantidade: 15,
+          valor: 3.00,
+          disponivel: 'Comprar',
+          projeto_id: this.$route.params.projeto_id,
+          tipo_recurso_id: 'Materiais',
+          unidade: 'Metro'
+        }
+      ]
     },
     getRecursosCustos () {
       this.$q.loading.show()

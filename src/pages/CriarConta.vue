@@ -67,47 +67,10 @@ export default {
   },
   methods: {
     login () {
-      var app = this
-      app.$q.loading.show()
-      this.$auth.createUserWithEmailAndPassword(this.email, this.password).then((user) => {
-        if (user.user) {
-          user.user.updateProfile({
-            displayName: app.nome
-          }).then(function () {
-            app.$q.notify({
-              color: 'positive',
-              position: 'bottom-right',
-              message: 'Conta criada com sucesso',
-              timeout: 2500,
-              textColor: 'white',
-              actions: [{ icon: 'close', color: 'white' }]
-            })
-            app.$q.loading.hide()
-            app.$router.replace('/login')
-          }).catch((err) => {
-            this.$q.notify({
-              color: 'negative',
-              position: 'bottom-right',
-              message: err.message,
-              timeout: 2500,
-              textColor: 'white',
-              actions: [{ icon: 'close', color: 'white' }]
-            })
-          })
-        }
-      }).catch((err) => {
-        app.$q.loading.hide()
-        if (err.code.toString() === 'auth/email-already-in-use') {
-          this.$q.notify({
-            color: 'negative',
-            position: 'bottom-right',
-            message: 'Este email já está cadastrado',
-            timeout: 2500,
-            textColor: 'white',
-            actions: [{ icon: 'close', color: 'white' }]
-          })
-        }
-      })
+      let user = this.$models.user.account(this.nome, this.email, this.password)
+      if (user) {
+        this.$router.replace('/home')
+      }
     }
   }
 }
