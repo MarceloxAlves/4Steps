@@ -80,7 +80,8 @@ module.exports = function (ctx) {
         'QSelect',
         'QRadio',
         'QBadge',
-        'QChip'
+        'QChip',
+        'QKnob'
       ],
 
       directives: [

@@ -48,21 +48,21 @@
                 </q-tab-panel>
                 <q-tab-panel name="Recursos do Projeto">
                   <div class="text-h5 q-mb-md">Recursos do projeto</div>
-                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
+                  <RecursoList :projeto="projeto" :tipo="false"></RecursoList>
                 </q-tab-panel>
                 <q-tab-panel name="Recursos de Trabalho">
                   <div class="text-h4 q-mb-md">Recursos de Trabalho</div>
-                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
+                  <RecursoList :projeto="projeto" :tipo="'ztcxIcvBpYMZOPWDSxqo'"></RecursoList>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos Materiais">
                   <div class="text-h4 q-mb-md">Recursos Materiais</div>
-                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
+                  <RecursoList :projeto="projeto" :tipo="'gVLfM4kRENodgVI7XFWK'"></RecursoList>
                 </q-tab-panel>
 
                 <q-tab-panel name="Recursos de Custos">
                   <div class="text-h4 q-mb-md">Recursos de Custos</div>
-                  <RecursoList :projeto="projeto" :tipo="1"></RecursoList>
+                  <RecursoList :projeto="projeto" :tipo="'j24nWQIVwFKB1riHntaH'"></RecursoList>
                 </q-tab-panel>
 
                 <q-tab-panel name="Colaboradores">
@@ -94,9 +94,6 @@ export default {
   data () {
     return {
       projeto: {},
-      recursosTrabalho: [],
-      recursosMateriais: [],
-      recursosCustos: [],
       splitterModel: 50,
       selected: 'Detalhes do projeto',
       filter: '',
@@ -144,9 +141,6 @@ export default {
   created () {
     if (this.$route.params.projeto_id) {
       this.getProjeto()
-      this.getRecursosTrabalho()
-      this.getRecursosMateriais()
-      this.getRecursosCustos()
     }
   },
   methods: {
@@ -180,82 +174,6 @@ export default {
     },
     novoRecurso () {
       this.$router.replace(this.$route.path + '/recursos/add')
-    },
-    getRecursosTrabalho () {
-      this.$q.loading.show()
-      var app = this
-      this.$firestore.collection('recursos').where('tipo_recurso_id', '==', 'ztcxIcvBpYMZOPWDSxqo')
-        .where('projeto_id', '==', this.$route.params.projeto_id)
-        .orderBy('nome')
-        .get()
-        .then(function (querySnapshot) {
-          app.recursosTrabalho = []
-          querySnapshot.forEach(function (doc) {
-            let obj = doc.data()
-            obj.id = doc.id
-            app.projetos.push(obj)
-          })
-          app.$q.loading.hide()
-        })
-        .catch(function (error) {
-          app.$msg.error('Erro ao carregar os dados' + error.message)
-          app.$q.loading.hide()
-        })
-    },
-    getRecursosMateriais () {
-      this.$q.loading.show()
-      var app = this
-      this.$firestore.collection('recursos').where('tipo_recurso_id', '==', 'gVLfM4kRENodgVI7XFWK')
-        .where('projeto_id', '==', this.$route.params.projeto_id)
-        .orderBy('nome')
-        .get()
-        .then(function (querySnapshot) {
-          app.recursosMateriais = []
-          querySnapshot.forEach(function (doc) {
-            let obj = doc.data()
-            obj.id = doc.id
-            app.projetos.push(obj)
-          })
-          app.$q.loading.hide()
-        })
-        .catch(function (error) {
-          app.$msg.error('Erro ao carregar os dados' + error.message)
-          app.$q.loading.hide()
-        })
-
-      app.recursosMateriais = [
-        {
-          nome: 'Cabos Eternet',
-          descricao: 'Será utilizado 12 metros na instalação de access point',
-          quantidade: 15,
-          valor: 3.00,
-          disponivel: 'Comprar',
-          projeto_id: this.$route.params.projeto_id,
-          tipo_recurso_id: 'Materiais',
-          unidade: 'Metro'
-        }
-      ]
-    },
-    getRecursosCustos () {
-      this.$q.loading.show()
-      var app = this
-      this.$firestore.collection('recursos').where('tipo_recurso_id', '==', 'j24nWQIVwFKB1riHntaH')
-        .where('projeto_id', '==', this.$route.params.projeto_id)
-        .orderBy('nome')
-        .get()
-        .then(function (querySnapshot) {
-          app.recursosCustos = []
-          querySnapshot.forEach(function (doc) {
-            let obj = doc.data()
-            obj.id = doc.id
-            app.projetos.push(obj)
-          })
-          app.$q.loading.hide()
-        })
-        .catch(function (error) {
-          app.$msg.error('Erro ao carregar os dados' + error.message)
-          app.$q.loading.hide()
-        })
     }
   }
 }

@@ -3,6 +3,22 @@
       <q-list  bordered class="rounded-borders" style="max-width: 100%">
         <q-item-label header style="border-bottom: 1px solid #00003e">
           <q-btn @click="$router.replace($route.path + '/recursos/add')" flat icon="add" label="Adicionar Recurso" type="button" color="primary"/>
+          &nbsp;
+          <q-knob
+            show-value
+            :readonly="true"
+            :max="orcado"
+            font-size="12px"
+            v-model="total"
+            size="50px"
+            :thickness="0.20"
+            color="teal"
+            track-color="grey-3"
+            class="q-ma-md"
+          >
+            {{ new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(valor / orcado * 100) }}%
+          </q-knob>
+          <q-chip outline color="teal" text-color="white" icon="attach_money">{{valor}}</q-chip>
         </q-item-label>
         <q-item v-for="recurso in recursos" :key="recurso.id" style="border-bottom:1px solid #ccc">
           <q-item-section avatar top>
@@ -23,8 +39,9 @@
 
           <q-item-section top side>
             <div class="text-grey-8 q-gutter-xs">
-              <q-btn class="gt-xs" size="12px" color="red" flat dense round icon="delete" />
               <q-btn class="gt-xs" size="12px" color="green" flat dense round icon="done" />
+              <q-btn class="gt-xs" size="12px" @click="$router.replace($route.path + '/recursos/'+recurso.id+'/edit')" color="primary" flat dense round icon="edit" />
+              <q-btn class="gt-xs" size="12px" color="red" flat dense round icon="delete" />
               <q-btn size="12px" flat dense round icon="more_vert" />
             </div>
           </q-item-section>
@@ -51,7 +68,6 @@
           </q-card-section>
 
           <q-card-section v-html="recurso_selected.descricao" style="min-width: 500px;">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -66,7 +82,10 @@ export default {
     return {
       recursos: [],
       recurso_selected: null,
-      view: false
+      view: false,
+      total: 0,
+      valor: 0,
+      orcado: 5000
     }
   },
   watch: {
@@ -78,7 +97,13 @@ export default {
   },
   methods: {
     async onReload () {
-      this.recursos = await this.$models.recurso.list(this.projeto.id)
+      if (!this.tipo) {
+        this.recursos = await this.$models.recurso.list(this.projeto.id)
+      } else {
+        this.recursos = await this.$models.recurso.listByTipo(this.projeto.id, this.tipo)
+      }
+      var app = this
+      this.recursos.forEach((recurso) => { app.valor += ((parseFloat(recurso.valor) * recurso.quantidade)) })
     }
   }
 }

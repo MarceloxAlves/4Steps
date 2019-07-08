@@ -94,6 +94,21 @@ const _recurso = {
       }
     ).catch((err) => { Loading.hide(); constante.Notificar.error(err.message) })
     return recursos
+  },
+  listByTipo: async (idProjeto, idTipo) => {
+    Loading.show()
+    let recursos = []
+    await firebase.FIRESTORE.collection('recursos').where('projeto_id', '==', idProjeto).where('tipo_recurso_id', '==', idTipo).get().then(
+      function (query) {
+        Loading.hide()
+        query.docs.forEach((doc) => {
+          let recurso = doc.data()
+          recurso.id = doc.id
+          recursos.push(recurso)
+        })
+      }
+    ).catch((err) => { Loading.hide(); constante.Notificar.error(err.message) })
+    return recursos
   }
 }
 
@@ -119,7 +134,6 @@ const _tipoRecurso = {
     let tipos = _tipoRecurso.list.filter(function (tipo) {
       return tipo.id === id
     })
-    console.log(tipos[0])
     return tipos.length > 0 ? tipos[0] : null
   }
 }

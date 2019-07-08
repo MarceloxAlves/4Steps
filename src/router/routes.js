@@ -23,7 +23,8 @@ const routes = [
       { path: 'add', component: () => import('pages/projeto/ProjetoForm.vue') },
       { path: ':projeto_id/edit', component: () => import('pages/projeto/ProjetoForm.vue') },
       { path: ':projeto_id/view', component: () => import('pages/projeto/ProjetoView.vue') },
-      { path: ':projeto_id/view/recursos/add', component: () => import('pages/recurso/RecursoForm.vue') }
+      { path: ':projeto_id/view/recursos/add', component: () => import('pages/recurso/RecursoForm.vue') },
+      { path: ':projeto_id/view/recursos/:recurso_id/edit', component: () => import('pages/recurso/RecursoForm.vue') }
     ],
     meta: { requiresAuth: true }
   },
