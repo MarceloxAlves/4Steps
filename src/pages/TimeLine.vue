@@ -4,10 +4,9 @@
           <q-timeline color="secondary">
               <q-timeline-entry heading>
               </q-timeline-entry>
-
               <q-timeline-entry
                       v-for="(acontecimento, index) in feed" :key="index"
-                      :title="acontecimento.usuario.displayName"
+                      :title="acontecimento.usuario.id"
                       :subtitle="Date().valueOf(acontecimento.dt_criacao)"
                       avatar="https://lh3.googleusercontent.com/a-/AAuE7mCe-X3hKfmKs7h246ZPpDSY3FKcaj55AZPK9qgoVQ=s96"
               >
@@ -35,19 +34,12 @@ export default {
   },
   created () {
     this.onreload()
+    console.log(this.projeto.id)
   },
   methods: {
     async onreload () {
       var app = this
-      var projetoRef = app.$firestore
-        .collection('projetos')
-        .doc(app.projeto.id)
-      // await app.$firestore
-      //   .collection('projetos')
-      //   .doc(app.projeto.id).get().then((doc) => {
-      //     projetoRef = doc
-      //   })
-      console.log(projetoRef)
+      var projetoRef = this.$firestore.collection('projetos').doc(this.projeto.id)
       this.$firestore.collection('timeline').where('projeto', '==', projetoRef)
         .get()
         .then(function (querySnapshot) {

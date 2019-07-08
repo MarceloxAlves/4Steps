@@ -106,7 +106,7 @@
           </q-splitter>
       </div>
       <div class="col-12 col-md-3">
-        <TimeLine></TimeLine>
+        <TimeLine v-if="projeto.id" :projeto=projeto></TimeLine>
       </div>
     </div>
   </q-page>
