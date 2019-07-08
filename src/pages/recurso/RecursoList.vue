@@ -69,102 +69,18 @@
 
 <script>
 export default {
-  name: 'RecursoForm',
+  name: 'RecursoList',
+  props: ['projeto', 'tipo'],
   data () {
     return {
-      recurso: {
-        nome: '',
-        descricao: '',
-        quantidade: 0,
-        valor: 0.0,
-        disponivel: false,
-        projeto_id: this.$route.params.projeto_id,
-        tipo_recurso_id: '',
-        unidade: ''
-      },
-      editando: false,
-      options: [
-        {
-          label: 'Recurso de Trabalho',
-          value: 'ztcxIcvBpYMZOPWDSxqo'
-        },
-        {
-          label: 'Recurso Material',
-          value: 'gVLfM4kRENodgVI7XFWK'
-        },
-        {
-          label: 'Recurso de Custo',
-          value: 'j24nWQIVwFKB1riHntaH'
-        }
-      ],
-      unidades: [
-        {
-          label: 'Unidade',
-          value: '1'
-        },
-        {
-          label: 'Pacote',
-          value: '2'
-        },
-        {
-          label: 'Caixa',
-          value: '4'
-        },
-        {
-          label: 'Hora',
-          value: '5'
-        },
-        {
-          label: 'Metro',
-          value: '6'
-        }
-      ]
+      recursos: []
     }
   },
   created () {
-    if (this.$route.params.recurso_id) {
-      this.editando = true
-      this.getRecurso()
-    }
   },
   methods: {
-    getRecurso () {
-      var app = this
-      this.$q.loading.show()
-      this.$firestore.collection('recursos').doc(this.$route.params.recurso_id).get()
-        .then(function (doc) {
-          app.recurso = doc.data()
-          app.$q.loading.hide()
-        })
-        .catch(function () {
-          app.$q.loading.hide()
-          app.$msg.error('Erro ao exibir ')
-        })
-    },
-    salvar () {
-      var app = this
-      this.$q.loading.show()
-      if (this.editando) {
-        this.$firestore.collection('recursos').doc(this.$route.params.recurso_id).update(this.recurso)
-          .then(function () {
-            app.$q.loading.hide()
-            app.$msg.success('Recurso salvo com sucesso!')
-          })
-          .catch(function (err) {
-            app.$q.loading.hide()
-            app.$msg.error('Erro ao salvar recurso ' + err.message)
-          })
-      } else {
-        this.$firestore.collection('recursos').doc().set(this.recurso)
-          .then(function () {
-            app.$q.loading.hide()
-            app.$msg.success('Recurso salvo com sucesso!')
-          })
-          .catch(function (err) {
-            app.$q.loading.hide()
-            app.$msg.error('Erro ao salvar recurso ' + err.message)
-          })
-      }
+    async onReload () {
+      this.recursos = await this.$models.recurso.list(this.projeto.id)
     }
   }
 }
