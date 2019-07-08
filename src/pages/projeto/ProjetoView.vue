@@ -54,17 +54,14 @@
                   <div class="text-h4 q-mb-md">Recursos de Trabalho</div>
                   <RecursoList :projeto="projeto" :tipo="'ztcxIcvBpYMZOPWDSxqo'"></RecursoList>
                 </q-tab-panel>
-
                 <q-tab-panel name="Recursos Materiais">
                   <div class="text-h4 q-mb-md">Recursos Materiais</div>
                   <RecursoList :projeto="projeto" :tipo="'gVLfM4kRENodgVI7XFWK'"></RecursoList>
                 </q-tab-panel>
-
                 <q-tab-panel name="Recursos de Custos">
                   <div class="text-h4 q-mb-md">Recursos de Custos</div>
                   <RecursoList :projeto="projeto" :tipo="'j24nWQIVwFKB1riHntaH'"></RecursoList>
                 </q-tab-panel>
-
                 <q-tab-panel name="Colaboradores">
                   <div class="text-h6 q-mb-md">Colaboradores do Projeto</div>
                   <q-input  type="email" ref="filter" filled v-model="colaborador" label="email do colaborador">
@@ -73,6 +70,10 @@
                     </template>
                   </q-input>
                   {{colaboradorFilter}}
+                </q-tab-panel>
+                <q-tab-panel name="Disponibilidades">
+                  <div class="text-h6 q-mb-md">Disponibilidades do Projeto</div>
+                  <DisponibilidadeForm v-if="projeto" :projeto="projeto"></DisponibilidadeForm>
                 </q-tab-panel>
               </q-tab-panels>
             </template>
@@ -88,9 +89,10 @@
 <script>
 import TimeLine from '../TimeLine'
 import RecursoList from '../recurso/RecursoList'
+import DisponibilidadeForm from '../recurso/DisponibilidadeForm'
 export default {
   name: 'ProjetoForm',
-  components: { RecursoList, TimeLine },
+  components: { DisponibilidadeForm, RecursoList, TimeLine },
   data () {
     return {
       projeto: {},
@@ -107,13 +109,12 @@ export default {
               label: 'Colaboradores',
               icon: 'peoples',
               id: 'ztcxIcvBpYMZOPWDSxqo'
-            },
-            {
-              label: 'Prazos',
-              icon: 'layers',
-              id: 'gVLfM4kRENodgVI7XFWK'
             }
           ]
+        },
+        {
+          label: 'Disponibilidades',
+          icon: 'attach_money'
         },
         {
           label: 'Recursos do Projeto',

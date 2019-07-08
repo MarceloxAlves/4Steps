@@ -109,6 +109,30 @@ const _recurso = {
       }
     ).catch((err) => { Loading.hide(); constante.Notificar.error(err.message) })
     return recursos
+  },
+  getOrcamento: async (idProjeto) => {
+    Loading.show()
+    var disponibildade = {}
+    await firebase.FIRESTORE.collection('disponibilidades').where('projeto_id', '==', idProjeto).get().then(
+      function (query) {
+        Loading.hide()
+        if (query.docs.length > 0) {
+          disponibildade = query.docs[0].data()
+          disponibildade.id = query.docs[0].id
+        }
+      }
+    ).catch((err) => { Loading.hide(); constante.Notificar.error(err.message) })
+    return disponibildade
+  }
+}
+
+const _timeLine = {
+  add: async (mensagem, projeto, objeto) => {
+    var userRef = await firebase.FIRESTORE.collection('usuarios').doc(firebase.AUTH.currentUser.uid)
+    firebase.FIRESTORE.collection('timeline').doc().set({ mensagem: mensagem, projeto: projeto, usuario: userRef, objeto: objeto, dt_criacao: Date.now() }).then(
+      function () {
+      }
+    ).catch(() => { })
   }
 }
 
@@ -137,7 +161,6 @@ const _tipoRecurso = {
     return tipos.length > 0 ? tipos[0] : null
   }
 }
-
 const _dadosFixos = {
   statusRecursos: [
     { id: 0, color: 'green', nome: 'Disponível' },
@@ -171,6 +194,12 @@ const _dadosFixos = {
       return std.id == id
     })
     return status.length > 0 ? status[0] : null
+  },
+  getUnidade: (id) => {
+    let status = _dadosFixos.unidades.filter(function (std) {
+      return std.value == id
+    })
+    return status.length > 0 ? status[0] : null
   }
 }
 
@@ -178,7 +207,8 @@ const models = {
   user: _user,
   recurso: _recurso,
   tipo_recurso: _tipoRecurso,
-  dadosFixos: _dadosFixos
+  dadosFixos: _dadosFixos,
+  timeline: _timeLine
 }
 
 export default ({ app, router, Vue }) => {
